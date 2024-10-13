@@ -8,7 +8,7 @@ CREATE TABLE Usager
 (
     idUsager SERIAL PRIMARY KEY,
     nom VARCHAR(50) NOT NULL UNIQUE,
-    nom VARCHAR(50) NOT NULL,
+    prenom VARCHAR(50) NOT NULL,
     mail VARCHAR(150) NOT NULL
 );
 
