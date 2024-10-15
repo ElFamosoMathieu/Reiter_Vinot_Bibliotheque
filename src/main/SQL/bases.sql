@@ -6,58 +6,56 @@ CREATE TYPE EStatutEmprunt AS ENUM('en cours', 'rendu');
 
 CREATE TABLE Usager
 (
-    idUsager SERIAL PRIMARY KEY,
-    nom VARCHAR(50) NOT NULL UNIQUE,
+    nom VARCHAR(50) PRIMARY KEY,
     prenom VARCHAR(50) NOT NULL,
     mail VARCHAR(150) NOT NULL
 );
 
 CREATE TABLE Oeuvre(
-    idOeuvre SERIAL PRIMARY KEY,
-    titre VARCHAR(50) NOT NULL UNIQUE,
+    titre VARCHAR(50) PRIMARY KEY,
     datePublication date NOT NULL
 );
 
 CREATE TABLE Livre
 (
     idLivre SERIAL PRIMARY KEY,
-    idOeuvre int NOT NULL,
+    titre VARCHAR(50) NOT NULL,
     auteur VARCHAR(50) NOT NULL,
-    FOREIGN KEY (idOeuvre) REFERENCES Oeuvre (idOeuvre)
+    FOREIGN KEY (titre) REFERENCES Oeuvre (titre)
 );
 
 CREATE TABLE Magazine
 (
     idMagazine SERIAL PRIMARY KEY,
-    idOeuvre int NOT NULL,
+    titre VARCHAR(50) NOT NULL,
     numéro INT NOT NULL,
     édition VARCHAR(50) NOT NULL,
-    FOREIGN KEY (idOeuvre) REFERENCES Oeuvre (idOeuvre)
+    FOREIGN KEY (titre) REFERENCES Oeuvre (titre)
 );
 
 CREATE TABLE Exemplaire(
     idExemplaire SERIAL PRIMARY KEY,
-    idOeuvre int NOT NULL,
+    titre VARCHAR(50) NOT NULL,
     etat EEtat NOT NULL,
-    FOREIGN KEY (idOeuvre) REFERENCES Oeuvre (idOeuvre)
+    FOREIGN KEY (titre) REFERENCES Oeuvre (titre)
 );
 
 CREATE TABLE Reservation(
     idReservation SERIAL PRIMARY KEY,
-    idOeuvre int NOT NULL,
-    idUsager int NOT NULL,
+    titre VARCHAR(50) NOT NULL,
+    nom VARCHAR(50) NOT NULL,
     dateReservation date NOT NULL,
     statutReservation EStatutReservation NOT NULL,
-    FOREIGN KEY (idOeuvre) REFERENCES Oeuvre (idOeuvre),
-    FOREIGN KEY (idUsager) REFERENCES Usager (idUsager)
+    FOREIGN KEY (titre) REFERENCES Oeuvre (titre),
+    FOREIGN KEY (nom) REFERENCES Usager (nom)
 );
 
 CREATE TABLE Emprunt(
     idEmprunt SERIAL PRIMARY KEY,
-    idOeuvre int NOT NULL,
-    idUsager int NOT NULL,
+    idExemplaire int NOT NULL,
+    nom VARCHAR(50) NOT NULL,
     dateEmprunt date NOT NULL,
     statutEmprunt EStatutEmprunt NOT NULL,
     FOREIGN KEY (idExemplaire) REFERENCES Exemplaire (idExemplaire),
-    FOREIGN KEY (idUsager) REFERENCES Usager (idUsager)
+    FOREIGN KEY (nom) REFERENCES Usager (nom)
 );
