@@ -8,7 +8,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         while (menu){
             int choix = 0;
-            System.out.println("faite votre choix");
+            System.out.println("Faite votre choix : ");
             afficherMenu();
             choix = scanner.nextInt();;
             System.out.println(choix);
@@ -33,7 +33,6 @@ public class Main {
     }
 
     private static void afficherMenu() {
-        System.out.println("Vous avez choix votre choix");
         System.out.println("1. Ajouter un usager");
         System.out.println("2. Work in progress");
         System.out.println("3. Work in progress");
