@@ -1,7 +1,9 @@
 package ObjetsMetier;
 
+import java.sql.ResultSet;
 import java.util.Date;
 import Utilitaire.Etat;
+import Utilitaire.OutilsBaseSQL;
 
 public class Oeuvre {
     private String titre;
@@ -32,8 +34,21 @@ public class Oeuvre {
     }
 
     // Méthodes spécifiques
-    public Oeuvre e_identifier(String titre) {
-        //a changer avec le SQL
-        return this;
+    public static Oeuvre e_identifier(String titre){
+        Oeuvre oeuvre = null;
+        OutilsBaseSQL outilsBaseSQL = OutilsBaseSQL.getInstance();
+
+        String query = "SELECT * from Oeuvre where titre = '" + titre + "'";
+        String erreur = "Une erreur s'est produite lors de l'identification de l'oeuvre !";
+        ResultSet res = outilsBaseSQL.rechercheSQL(query, erreur);
+
+        try {
+            while (res.next()) {
+                oeuvre = new Oeuvre(res.getString("titre"), res.getDate("datePublication"));
+            }
+        } catch (Exception e){
+            System.out.println(e);
+        }
+        return oeuvre;
     }
 }
