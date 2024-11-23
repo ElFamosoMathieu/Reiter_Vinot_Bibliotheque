@@ -37,6 +37,5 @@ public class Main {
         System.out.println("2. Work in progress");
         System.out.println("3. Work in progress");
         System.out.println("10. Quitter le programme");
-
     }
 }

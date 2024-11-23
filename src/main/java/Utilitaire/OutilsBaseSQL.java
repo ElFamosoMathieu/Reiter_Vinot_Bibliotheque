@@ -15,7 +15,7 @@ public class OutilsBaseSQL {
     /**
      * Constructeur privé pour la classe OutilsBaseSQL
      */
-    protected OutilsBaseSQL(){
+    private OutilsBaseSQL(){
         makeConnexion();
     }
 
@@ -56,7 +56,7 @@ public class OutilsBaseSQL {
      *
      * @return L'instance unique de la classe OutilsBaseSQL
      */
-    public static OutilsBaseSQL getInstance() {
+    public static synchronized OutilsBaseSQL getInstance() {
         if (instance == null){
             instance = new OutilsBaseSQL();
         }
@@ -137,6 +137,7 @@ public class OutilsBaseSQL {
         } catch (SQLException e) {
             //System.out.println(erreur);
         } finally {
+            System.out.println(res);
             return res;
         }
 
@@ -151,7 +152,6 @@ public class OutilsBaseSQL {
         } finally {
             return generatedKeys;
         }
-
          */
     }
 
