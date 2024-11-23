@@ -20,10 +20,10 @@ public class Gestion_exemplaire {
         int res = outilsBaseSQL.majSQL(query, erreur);
     }
 
-    public static void supprimer(String nom){
+    public static void supprimer(int id){
         OutilsBaseSQL outilsBaseSQL = OutilsBaseSQL.getInstance();
-        String query = "DELETE FROM Usager \n" +
-                " WHERE nom = '" + nom + "'";
+        String query = "DELETE FROM Exemplaire \n" +
+                " WHERE id  = '" + nom + "'";
         String erreur = "Une erreur s'est produite lors de la suppression !";
         int res = outilsBaseSQL.majSQL(query, erreur);
     }

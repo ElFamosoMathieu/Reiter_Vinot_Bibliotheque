@@ -19,7 +19,7 @@ CREATE TABLE Oeuvre(
 CREATE TABLE Livre
 (
     idLivre SERIAL PRIMARY KEY,
-    titre VARCHAR(50) NOT NULL,
+    titre VARCHAR(50) NOT NULL UNIQUE,
     auteur VARCHAR(50) NOT NULL,
     FOREIGN KEY (titre) REFERENCES Oeuvre (titre)
 );
@@ -30,7 +30,8 @@ CREATE TABLE Magazine
     titre VARCHAR(50) NOT NULL,
     numéro INT NOT NULL,
     édition VARCHAR(50) NOT NULL,
-    FOREIGN KEY (titre) REFERENCES Oeuvre (titre)
+    FOREIGN KEY (titre) REFERENCES Oeuvre (titre),
+    UNIQUE (titre, numéro)
 );
 
 CREATE TABLE Exemplaire(
