@@ -29,6 +29,12 @@ public class Usager {
         return this.mail;
     }
 
+    public void maj(String nom, String prenom, String mail) {
+        this.nom = nom;
+        this.prenom = prenom;
+        this.mail = mail;
+    }
+
     public static Usager e_identifier(String nom){
 
         Usager usager = null;
