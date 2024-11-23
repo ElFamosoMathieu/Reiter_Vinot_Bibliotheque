@@ -1,8 +1,8 @@
-CREATE TYPE EEtat AS ENUM('bon état', 'abimé');
+CREATE TYPE EEtat AS ENUM('DISPONIBLE', 'INDISPONIBLE');
 
-CREATE TYPE EStatutReservation AS ENUM('disponible', 'réservé');
+CREATE TYPE EStatutReservation AS ENUM('NON_RESERVEE', 'RESERVEE');
 
-CREATE TYPE EStatutEmprunt AS ENUM('en cours', 'rendu');
+CREATE TYPE EStatutEmprunt AS ENUM('EN_COURS', 'TERMINE');
 
 CREATE TABLE Usager
 (

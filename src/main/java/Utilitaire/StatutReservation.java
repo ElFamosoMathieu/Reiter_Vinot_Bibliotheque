@@ -1,6 +1,6 @@
 package Utilitaire;
 
 public enum StatutReservation {
-    ACTIVE,
-    ANNULEE
+    NON_RESERVEE,
+    RESERVEE
 }
