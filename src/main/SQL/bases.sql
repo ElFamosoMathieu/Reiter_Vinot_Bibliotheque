@@ -31,7 +31,7 @@ CREATE TABLE Magazine
     numéro INT NOT NULL,
     édition VARCHAR(50) NOT NULL,
     FOREIGN KEY (titre) REFERENCES Oeuvre (titre),
-    UNIQUE (titre, numéro)
+    UNIQUE (édition, numéro)
 );
 
 CREATE TABLE Exemplaire(
