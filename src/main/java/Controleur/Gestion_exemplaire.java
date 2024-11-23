@@ -1,11 +1,7 @@
 package Controleur;
 
-import ObjetsMetier.Oeuvre;
-import ObjetsMetier.Usager;
 import Utilitaire.Etat;
 import Utilitaire.OutilsBaseSQL;
-
-import static ObjetsMetier.Usager.e_identifier;
 
 public class Gestion_exemplaire {
 
@@ -23,16 +19,16 @@ public class Gestion_exemplaire {
     public static void supprimer(int id){
         OutilsBaseSQL outilsBaseSQL = OutilsBaseSQL.getInstance();
         String query = "DELETE FROM Exemplaire \n" +
-                " WHERE id  = '" + id + "'";
+                " WHERE idExemplaire  = '" + id + "'";
         String erreur = "Une erreur s'est produite lors de la suppression !";
         int res = outilsBaseSQL.majSQL(query, erreur);
     }
 
-    public static void maj(String nom, String prenom, String mail){
+    public static void maj(int id, Etat etat){
         OutilsBaseSQL outilsBaseSQL = OutilsBaseSQL.getInstance();
-        String query = "UPDATE Usager \n" +
-                " SET prenom = '" + prenom + "', mail = '" + mail + "' \n" +
-                " WHERE nom = '" + nom + "'";
+        String query = "UPDATE Exemplaire \n" +
+                " SET etat = '" + etat + "' \n" +
+                " WHERE idExemplaire = '" + id + "'";
         String erreur = "Une erreur s'est produite lors de la suppression !";
         int res = outilsBaseSQL.majSQL(query, erreur);
     }

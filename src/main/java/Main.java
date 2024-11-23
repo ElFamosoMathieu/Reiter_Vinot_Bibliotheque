@@ -1,6 +1,7 @@
 import Controleur.Gestion_exemplaire;
 import Controleur.Gestion_usager;
 import IHM.IHM_usager;
+import Utilitaire.Etat;
 
 import java.util.Scanner;
 
