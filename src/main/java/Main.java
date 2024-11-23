@@ -1,3 +1,4 @@
+import Controleur.Gestion_usager;
 import IHM.IHM_usager;
 
 import java.util.Scanner;

@@ -16,7 +16,7 @@ public class IHM_usager {
         System.out.println("Et pour finir le mail de l'usager.");
         mail = scanner.nextLine();
         try {
-            GestionUsager.creationUsager(nom, prenom, mail);
+            GestionUsager.ajouter(nom, prenom, mail);
         }catch(Exception e){
             System.out.println("Erreur de creation : "+e.getMessage());
         }
