@@ -23,7 +23,7 @@ public class Gestion_exemplaire {
     public static void supprimer(int id){
         OutilsBaseSQL outilsBaseSQL = OutilsBaseSQL.getInstance();
         String query = "DELETE FROM Exemplaire \n" +
-                " WHERE id  = '" + nom + "'";
+                " WHERE id  = '" + id + "'";
         String erreur = "Une erreur s'est produite lors de la suppression !";
         int res = outilsBaseSQL.majSQL(query, erreur);
     }
