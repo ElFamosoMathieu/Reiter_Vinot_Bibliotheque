@@ -1,4 +1,4 @@
-package util;
+package Utilitaire;
 
 public enum StatutReservation {
     ACTIVE,

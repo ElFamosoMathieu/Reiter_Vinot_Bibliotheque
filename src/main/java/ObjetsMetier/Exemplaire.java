@@ -1,6 +1,6 @@
 package ObjetsMetier;
 
-import util.Etat;
+import Utilitaire.Etat;
 
 public class Exemplaire {
     private int id;
@@ -40,8 +40,9 @@ public class Exemplaire {
     }
 
     // Méthodes spécifiques
-    public Exemplaire identifier(Oeuvre oeuvre) {
-        return this.oeuvre.equals(oeuvre) ? this : null;
+    public Exemplaire e_identifier(Oeuvre oeuvre) {
+        //a changer avec le SQL
+        return this;
     }
 
     public void maj(Etat etat) {

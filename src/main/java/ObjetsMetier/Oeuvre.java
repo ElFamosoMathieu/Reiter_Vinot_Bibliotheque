@@ -1,7 +1,7 @@
 package ObjetsMetier;
 
 import java.util.Date;
-import util.Etat;
+import Utilitaire.Etat;
 
 public class Oeuvre {
     private String titre;
@@ -32,7 +32,8 @@ public class Oeuvre {
     }
 
     // Méthodes spécifiques
-    public Oeuvre identifier(String titre) {
-        return this.titre.equals(titre) ? this : null;
+    public Oeuvre e_identifier(String titre) {
+        //a changer avec le SQL
+        return this;
     }
 }
