@@ -19,7 +19,6 @@ public class Gestion_exemplaire {
 
     public void ajouter(String oeuvre) {
         OutilsBaseSQL outilsBaseSQL = OutilsBaseSQL.getInstance();
-
         String query = "INSERT INTO Exemplaire (titre, etat)\n" +
                 " VALUES ('"+ oeuvre +"', '" + Etat.DISPONIBLE + "')";
         String erreur = "Une erreur s'est produite lors de la création !";
@@ -27,20 +26,26 @@ public class Gestion_exemplaire {
     }
 
     public void supprimer(int id){
-        OutilsBaseSQL outilsBaseSQL = OutilsBaseSQL.getInstance();
-        String query = "DELETE FROM Exemplaire \n" +
-                " WHERE idExemplaire  = '" + id + "'";
-        String erreur = "Une erreur s'est produite lors de la suppression !";
-        int res = outilsBaseSQL.majSQL(query, erreur);
+        Exemplaire exemplaire = Exemplaire.e_identifier(id);
+        if(exemplaire != null) {
+            OutilsBaseSQL outilsBaseSQL = OutilsBaseSQL.getInstance();
+            String query = "DELETE FROM Exemplaire \n" +
+                    " WHERE idExemplaire  = '" + id + "'";
+            String erreur = "Une erreur s'est produite lors de la suppression !";
+            int res = outilsBaseSQL.majSQL(query, erreur);
+        }
     }
 
     public void maj(int id, Etat etat){
-        OutilsBaseSQL outilsBaseSQL = OutilsBaseSQL.getInstance();
-        String query = "UPDATE Exemplaire \n" +
-                " SET etat = '" + etat + "' \n" +
-                " WHERE idExemplaire = '" + id + "'";
-        String erreur = "Une erreur s'est produite lors de la suppression !";
-        int res = outilsBaseSQL.majSQL(query, erreur);
+        Exemplaire exemplaire = Exemplaire.e_identifier(id);
+        if(exemplaire != null) {
+            OutilsBaseSQL outilsBaseSQL = OutilsBaseSQL.getInstance();
+            String query = "UPDATE Exemplaire \n" +
+                    " SET etat = '" + etat + "' \n" +
+                    " WHERE idExemplaire = '" + id + "'";
+            String erreur = "Une erreur s'est produite lors de la suppression !";
+            int res = outilsBaseSQL.majSQL(query, erreur);
+        }
     }
 
     public List<Exemplaire> getAllExemplaires() {

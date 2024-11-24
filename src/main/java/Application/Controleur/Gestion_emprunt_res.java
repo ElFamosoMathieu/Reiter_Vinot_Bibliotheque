@@ -78,7 +78,6 @@ public class Gestion_emprunt_res {
 
     public synchronized void emprunter(String nom, String titre){
         OutilsBaseSQL outilsBaseSQL = OutilsBaseSQL.getInstance();
-        System.out.println("emprunter 1");
         // Obtenir la date actuelle
         LocalDate dateJour = LocalDate.now();
 
@@ -86,20 +85,14 @@ public class Gestion_emprunt_res {
         String dateJourFormat = dateJour.toString();
 
         Usager usager = Usager.e_identifier(nom);
-        //System.out.println("emprunter 2");
         if (usager != null){
-            //System.out.println("emprunter 3");
             Oeuvre oeuvre = Oeuvre.e_identifier(titre);
             if (oeuvre != null){
-                //System.out.println("emprunter 4");
                 if (this.verifierReservation(usager, oeuvre)){
-                    //System.out.println("emprunter 5");
                     this.annuler(usager.getNom(), oeuvre.getTitre());
                 }
-                //System.out.println("emprunter 6");
                 Exemplaire exemplaire = Exemplaire.e_identifier(oeuvre);
                 if(exemplaire != null){
-                    //System.out.println("emprunter 7");
                     String query = "INSERT INTO Emprunt (idExemplaire, nom, dateEmprunt, statutEmprunt)\n" +
                             " VALUES ('"+ exemplaire.getId() +"', '" + nom + "', '"+ dateJourFormat +"', '"+ StatutEmprunt.EN_COURS +"')";
                     String erreur = "Une erreur s'est produite lors de l'emprunt !";
@@ -109,7 +102,6 @@ public class Gestion_emprunt_res {
                     Gestion_exemplaire gestion_exemplaire = new Gestion_exemplaire();
                     gestion_exemplaire.maj(exemplaire.getId(), Etat.INDISPONIBLE);
                 }
-                System.out.println("emprunter 8");
             }
         }
     }
