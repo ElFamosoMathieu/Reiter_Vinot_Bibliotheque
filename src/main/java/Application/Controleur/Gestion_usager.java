@@ -1,5 +1,6 @@
 package Application.Controleur;
 
+import Application.ObjetsMetier.Oeuvre;
 import Application.ObjetsMetier.Usager;
 import Application.Utilitaire.OutilsBaseSQL;
 
@@ -31,14 +32,17 @@ public class Gestion_usager {
     }
 
     public void supprimer(String nom){
-        Gestion_emprunt_res gestion_emprunt_res =new Gestion_emprunt_res();
-        if (gestion_emprunt_res.verifierEmpruntVide(nom)){
-            gestion_emprunt_res.supprimerUsager(nom);
-            OutilsBaseSQL outilsBaseSQL = OutilsBaseSQL.getInstance();
-            String query = "DELETE FROM Usager \n" +
-                    " WHERE nom = '" + nom + "'";
-            String erreur = "Une erreur s'est produite lors de la suppression !";
-            int res = outilsBaseSQL.majSQL(query, erreur);
+        Usager usager = Usager.e_identifier(nom);
+        if (usager != null) {
+            Gestion_emprunt_res gestion_emprunt_res = new Gestion_emprunt_res();
+            if (gestion_emprunt_res.verifierEmpruntVide(nom)) {
+                gestion_emprunt_res.supprimerUsager(nom);
+                OutilsBaseSQL outilsBaseSQL = OutilsBaseSQL.getInstance();
+                String query = "DELETE FROM Usager \n" +
+                        " WHERE nom = '" + nom + "'";
+                String erreur = "Une erreur s'est produite lors de la suppression !";
+                int res = outilsBaseSQL.majSQL(query, erreur);
+            }
         }
     }
 
