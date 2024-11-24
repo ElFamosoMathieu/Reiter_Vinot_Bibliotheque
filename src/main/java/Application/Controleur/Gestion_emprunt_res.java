@@ -146,61 +146,57 @@ public class Gestion_emprunt_res {
     }
 
     public void supprimerExemplaire(int idExemplaire) {
-
-        OutilsBaseSQL outilsBaseSQL = OutilsBaseSQL.getInstance();
-        String query = "DELETE FROM Emprunt \n" +
-                " WHERE idExemplaire = '" + idExemplaire + "'";
-        String erreur = "Une erreur s'est produite lors de la suppression des emprunts !";
-        int res = outilsBaseSQL.majSQL(query, erreur);
+        Exemplaire exemplaire = Exemplaire.e_identifier(idExemplaire);
+        if (exemplaire != null){
+            OutilsBaseSQL outilsBaseSQL = OutilsBaseSQL.getInstance();
+            String query = "DELETE FROM Emprunt \n" +
+                    " WHERE idExemplaire = '" + idExemplaire + "'";
+            String erreur = "Une erreur s'est produite lors de la suppression des emprunts !";
+            int res = outilsBaseSQL.majSQL(query, erreur);
+        }
     }
 
     public void supprimerOeuvre(String titre) {
-        OutilsBaseSQL outilsBaseSQL = OutilsBaseSQL.getInstance();
-        String query = "DELETE FROM Reservation \n" +
-                " WHERE titre = '" + titre + "'";
-        String erreur = "Une erreur s'est produite lors de la suppression des réservations !";
-        int res = outilsBaseSQL.majSQL(query, erreur);
+        Oeuvre oeuvre = Oeuvre.e_identifier(titre);
+        if (oeuvre != null) {
+            OutilsBaseSQL outilsBaseSQL = OutilsBaseSQL.getInstance();
+            String query = "DELETE FROM Reservation \n" +
+                    " WHERE titre = '" + titre + "'";
+            String erreur = "Une erreur s'est produite lors de la suppression des réservations !";
+            int res = outilsBaseSQL.majSQL(query, erreur);
 
-        query = "SELECT * FROM Exemplaire \n" +
-                " WHERE titre = '" + titre + "'";
-        erreur = "Une erreur s'est produite lors de la liste des exemplaires !";
-        ResultSet resultSet = outilsBaseSQL.rechercheSQL(query, erreur);
-        try {
-            while (resultSet.next()) {
-                this.supprimerExemplaire(resultSet.getInt("idExemplaire"));
+            query = "SELECT * FROM Exemplaire \n" +
+                    " WHERE titre = '" + titre + "'";
+            erreur = "Une erreur s'est produite lors de la liste des exemplaires !";
+            ResultSet resultSet = outilsBaseSQL.rechercheSQL(query, erreur);
+            try {
+                while (resultSet.next()) {
+                    this.supprimerExemplaire(resultSet.getInt("idExemplaire"));
+                }
+            } catch (Exception e) {
+                System.out.println(e);
             }
-        } catch (Exception e){
-            System.out.println(e);
+
+            query = "DELETE FROM Exemplaire \n" +
+                    " WHERE titre = '" + titre + "'";
+            erreur = "Une erreur s'est produite lors de la suppression des exemplaires !";
+            res = outilsBaseSQL.majSQL(query, erreur);
         }
-
-        query = "DELETE FROM Exemplaire \n" +
-                " WHERE titre = '" + titre + "'";
-        erreur = "Une erreur s'est produite lors de la suppression des exemplaires !";
-        res = outilsBaseSQL.majSQL(query, erreur);
-
     }
 
     public void supprimerUsager(String nom){
         OutilsBaseSQL outilsBaseSQL = OutilsBaseSQL.getInstance();
-        /*
-        String query = "UPDATE Exemplaire\n" +
-                "SET etat = 'DISPONIBLE'\n" +
-                "WHERE idExemplaire IN (\n" +
-                "    SELECT Emprunt.idExemplaire\n" +
-                "    FROM Emprunt\n" +
-                "    WHERE Emprunt.nom = '" + nom + "'\n" +
-                ")";
-        String erreur = "Une erreur s'est produite lors de l'update des etats !";
-        int res = outilsBaseSQL.majSQL(query, erreur);
-         */
-        String query = "DELETE FROM Emprunt \n" +
-                " WHERE nom = '" + nom + "'";
-        String erreur = "Une erreur s'est produite lors de la suppression des emprunts !";
-        int res = outilsBaseSQL.majSQL(query, erreur);
-        query = "DELETE FROM Reservation \n" +
-                " WHERE nom = '" + nom + "'";
-        erreur = "Une erreur s'est produite lors de la suppression des réservations !";
-        res = outilsBaseSQL.majSQL(query, erreur);
+        Usager usager = Usager.e_identifier(nom);
+        if (usager != null) {
+            String query = "DELETE FROM Emprunt \n" +
+                    " WHERE nom = '" + nom + "'";
+            String erreur = "Une erreur s'est produite lors de la suppression des emprunts !";
+            int res = outilsBaseSQL.majSQL(query, erreur);
+            query = "DELETE FROM Reservation \n" +
+                    " WHERE nom = '" + nom + "'";
+            erreur = "Une erreur s'est produite lors de la suppression des réservations !";
+            res = outilsBaseSQL.majSQL(query, erreur);
+        }
     }
 
     public List<Emprunt> getAllEmprunts() {
