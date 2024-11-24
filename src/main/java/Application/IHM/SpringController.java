@@ -1,13 +1,15 @@
-package Application.Controleur;
+package Application.IHM;
 
 
+import Application.Controleur.Gestion_emprunt_res;
+import Application.Controleur.Gestion_exemplaire;
+import Application.Controleur.Gestion_oeuvre;
+import Application.Controleur.Gestion_usager;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 
-import Application.IHM.IHM_usager;
-import Application.IHM.IHM_oeuvre;
 import Application.ObjetsMetier.Usager;
 import Application.ObjetsMetier.Oeuvre;
 import Application.ObjetsMetier.Emprunt;
@@ -30,7 +32,8 @@ public class SpringController {
     @RequestMapping("/usager")
         @GetMapping("/")
         public String usager(Model model) {
-            List<Usager> usagers = IHM_usager.getAllUsagers();
+            Gestion_usager gu = new Gestion_usager();
+            List<Usager> usagers = gu.getAllUsagers();
             model.addAttribute("usagers", usagers);
             return "usager";
         }
@@ -58,7 +61,8 @@ public class SpringController {
     @RequestMapping("/oeuvres")
         @GetMapping("/")
         public String afficherOeuvres(Model model) {
-            List<Oeuvre> oeuvres = IHM_oeuvre.getAllOeuvres();
+            Gestion_oeuvre go = new Gestion_oeuvre();
+            List<Oeuvre> oeuvres = go.getAllOeuvres();
             model.addAttribute("oeuvres", oeuvres);
             return "oeuvres";
         }
