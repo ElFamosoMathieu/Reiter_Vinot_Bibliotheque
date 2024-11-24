@@ -13,7 +13,7 @@ public class Gestion_emprunt_res {
 
     public Gestion_emprunt_res(){}
 
-    public static void reserver(String nom, String titre){
+    public void reserver(String nom, String titre){
         OutilsBaseSQL outilsBaseSQL = OutilsBaseSQL.getInstance();
 
         // Obtenir la date actuelle
@@ -34,7 +34,11 @@ public class Gestion_emprunt_res {
         }
     }
 
-    public static void emprunter(String nom, String titre){
+    public boolean verifierReservation(Usager usager,  Oeuvre oeuvre){
+        return false;
+    }
+
+    public synchronized void emprunter(String nom, String titre){
         OutilsBaseSQL outilsBaseSQL = OutilsBaseSQL.getInstance();
 
         // Obtenir la date actuelle
@@ -47,6 +51,9 @@ public class Gestion_emprunt_res {
         if (usager != null){
             Oeuvre oeuvre = Oeuvre.e_identifier(titre);
             if (oeuvre != null){
+                if (this.verifierReservation(usager, oeuvre)){
+                    this.annuler(usager.getNom(), oeuvre.getTitre());
+                }
                 Exemplaire exemplaire = Exemplaire.e_identifier(oeuvre);
                 if(exemplaire != null){
                     String query = "INSERT INTO Emprunt (idExemplaire, nom, dateEmprunt, statutEmprunt)\n" +
@@ -58,7 +65,7 @@ public class Gestion_emprunt_res {
         }
     }
 
-    public static void annuler(String nom, String titre){
+    public void annuler(String nom, String titre){
         OutilsBaseSQL outilsBaseSQL = OutilsBaseSQL.getInstance();
         String query = "UPDATE Reservation \n" +
                 " SET statutReservation = '" + StatutReservation.NON_RESERVEE + "' \n" +
@@ -67,7 +74,7 @@ public class Gestion_emprunt_res {
         int res = outilsBaseSQL.majSQL(query, erreur);
     }
 
-    public static void rendre(String nom, int id){
+    public void rendre(String nom, int id){
         OutilsBaseSQL outilsBaseSQL = OutilsBaseSQL.getInstance();
         String query = "UPDATE Emprunt \n" +
                 " SET statutEmprunt = '" + StatutEmprunt.TERMINE + "' \n" +
@@ -76,21 +83,21 @@ public class Gestion_emprunt_res {
         int res = outilsBaseSQL.majSQL(query, erreur);
     }
 
-    public static void supprimerExemplaire(int idExemplaire) {
+    public void supprimerExemplaire(int idExemplaire) {
         OutilsBaseSQL outilsBaseSQL = OutilsBaseSQL.getInstance();
         String query = "DELETE FROM Emprunt \n" +
                 " WHERE idExemplaire = '" + idExemplaire + "'";
         String erreur = "Une erreur s'est produite lors de la suppression des emprunts !";
     }
 
-    public static void supprimerOeuvre(String titre) {
+    public void supprimerOeuvre(String titre) {
         OutilsBaseSQL outilsBaseSQL = OutilsBaseSQL.getInstance();
         String query = "DELETE FROM Reservation \n" +
                 " WHERE titre = '" + titre + "'";
         String erreur = "Une erreur s'est produite lors de la suppression des réservations !";
     }
 
-    public static void supprimerUsager(String nom){
+    public void supprimerUsager(String nom){
         OutilsBaseSQL outilsBaseSQL = OutilsBaseSQL.getInstance();
         String query = "DELETE FROM Emprunt \n" +
                 " WHERE nom = '" + nom + "'";
