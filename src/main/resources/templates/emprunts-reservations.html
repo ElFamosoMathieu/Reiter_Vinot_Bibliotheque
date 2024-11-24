@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Emprunts et Réservations</title>
+</head>
+<body style="justify-items: center;align-content: center;">
+<h1>Gestion des Emprunts et Réservations</h1>
+<a href='/'>Retour</a><br/><br/>
+<h2>Réserver une œuvre</h2>
+<form action="/reservations/ajouter" method="post">
+    <label >Nom de l'usager :</label>
+    <input type="text" name="nom"  placeholder="Entrez le nom de l'usager" required autocomplete="on">
+
+    <label >Titre de l'œuvre :</label>
+    <select name="titre">
+        <option th:each="oeuvre : ${oeuvres}" th:value="${oeuvre.titre}" th:text="${oeuvre.titre}"></option>
+    </select>
+
+    <button type="submit">Réserver</button>
+</form>
+
+<h2>Réservations en attente</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Nom de l'usager</th>
+        <th>Oeuvre réservée</th>
+        <th>Date de réservation</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="reservation : ${reservations}">
+        <td th:text="${reservation.usager.nom}"></td>
+        <td th:text="${reservation.oeuvre.titre}"></td>
+        <td th:text="${reservation.dateReservation}"></td>
+        <td>
+            <form action="/reservations/annuler" method="post" style="display:inline;">
+                <input type="hidden" name="nom" th:value="${reservation.usager.nom}">
+                <input type="hidden" name="titre" th:value="${reservation.oeuvre.titre}">
+                <button type="submit">Annuler</button>
+            </form>
+            <form action="/emprunts/ajouter" method="post" style="display:inline;">
+                <input type="hidden" name="nom" th:value="${reservation.usager.nom}">
+                <input type="hidden" name="titre" th:value="${reservation.oeuvre.titre}">
+                <button type="submit">Emprunter</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- Emprunter une œuvre -->
+<h2>Emprunter une œuvre</h2>
+<form action="/emprunts/ajouter" method="post">
+    <label for="nom">Nom de l'usager :</label>
+    <input type="text" name="nom" id="nom" placeholder="Entrez le nom de l'usager" required autocomplete="on">
+
+    <label for="titre">Titre de l'œuvre :</label>
+    <select name="titre" id="titre">
+        <option th:each="oeuvre : ${oeuvres}" th:value="${oeuvre.titre}" th:text="${oeuvre.titre}"></option>
+    </select>
+
+    <button type="submit">Emprunter</button>
+</form>
+
+<!-- Liste des exemplaires empruntés -->
+<h2>Exemplaires empruntés</h2>
+<table>
+    <thead>
+    <tr>
+        <th>ID Exemplaire</th>
+        <th>Nom de l'usager</th>
+        <th>Date d'emprunt</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="emprunt : ${emprunts}">
+        <td th:text="${emprunt.exemplaire.id}"></td>
+        <td th:text="${emprunt.usager.nom}"></td>
+        <td th:text="${emprunt.dateEmprunt}"></td>
+        <td>
+            <form action="/emprunts/rendre" method="post">
+                <input type="hidden" name="idExemplaire" th:value="${emprunt.exemplaire.id}">
+                <input type="hidden" name="nom" th:value="${emprunt.usager.nom}">
+                <button type="submit">Rendre</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

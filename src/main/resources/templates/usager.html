@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <title>Gestion des Usagers</title>
 </head>
-<body>
+<body style="justify-items: center;align-content: center;">
 <h1>Liste des Usagers</h1>
 
-<!-- Formulaire pour ajouter un usager -->
+<a href='/'>Retour</a><br/><br/>
 <h2>Ajouter un Usager</h2>
 <form method="post" action="/usager/ajouter">
     <label for="nom">Nom :</label>
@@ -19,7 +19,7 @@
     <button type="submit">Ajouter</button>
 </form>
 
-<!-- Affichage de la liste des usagers -->
+
 <h2>Liste des Usagers</h2>
 <table border="1">
     <thead>
@@ -36,7 +36,6 @@
         <td th:text="${usager.prenom}"></td>
         <td th:text="${usager.mail}"></td>
         <td>
-            <!-- Formulaire pour modifier un usager -->
             <form method="post" action="/usager/modifier">
                 <input type="hidden" name="nom" th:value="${usager.nom}">
                 <input type="text" name="prenom" th:value="${usager.prenom}">
@@ -44,7 +43,6 @@
                 <button type="submit">Modifier</button>
             </form>
 
-            <!-- Formulaire pour supprimer un usager -->
             <form method="post" action="/usager/supprimer">
                 <input type="hidden" name="nom" th:value="${usager.nom}">
                 <button type="submit">Supprimer</button>

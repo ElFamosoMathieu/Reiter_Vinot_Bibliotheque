@@ -1,7 +1,6 @@
 package Application.Controleur;
 
-import Application.ObjetsMetier.Exemplaire;
-import Application.Utilitaire.Etat;
+
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +10,10 @@ import Application.IHM.IHM_usager;
 import Application.IHM.IHM_oeuvre;
 import Application.ObjetsMetier.Usager;
 import Application.ObjetsMetier.Oeuvre;
+import Application.ObjetsMetier.Emprunt;
+import Application.ObjetsMetier.Exemplaire;
+import Application.ObjetsMetier.Reservation;
+import Application.Utilitaire.Etat;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -112,5 +115,53 @@ public class SpringController {
             Gestion_exemplaire ge = new Gestion_exemplaire();
             ge.maj(id, Etat.valueOf(etat));
             return "redirect:/exemplaires";
+        }
+
+
+    @RequestMapping("/emprunts-reservations")
+        @GetMapping("/")
+        public String afficherEmpruntsReservations(Model model) {
+            Gestion_exemplaire ge = new Gestion_exemplaire();
+            Gestion_oeuvre go = new Gestion_oeuvre();
+            Gestion_emprunt_res ger = new Gestion_emprunt_res();
+            List<Emprunt> emprunts = ger.getAllEmprunts();
+            List<Oeuvre> oeuvres = go.getAllOeuvres();
+            List<Reservation> reservations = ger.getAllReservations();
+            List<Exemplaire> exemplaires = ge.getAllExemplaires();
+            model.addAttribute("oeuvres", oeuvres);
+            model.addAttribute("exemplaires", exemplaires);
+            model.addAttribute("emprunts", emprunts);
+            model.addAttribute("reservations", reservations);
+            return "emprunts-reservations";
+        }
+
+        @PostMapping("/reservations/ajouter")
+        public String reserverOeuvre(@RequestParam(name = "nom") String nom, @RequestParam(name = "titre") String titre) {
+            Gestion_emprunt_res ger = new Gestion_emprunt_res();
+            ger.reserver(nom, titre);
+            return "redirect:/emprunts-reservations";
+        }
+
+        @PostMapping("/reservations/annuler")
+        public String annulerReservation(@RequestParam(name = "nom") String nom, @RequestParam(name = "titre") String titre) {
+            Gestion_emprunt_res ger = new Gestion_emprunt_res();
+            ger.annuler(nom, titre);
+            return "redirect:/emprunts-reservations";
+        }
+
+        // Emprunter un exemplaire
+        @PostMapping("/emprunts/ajouter")
+        public String emprunterExemplaire(@RequestParam(name = "nom") String nom, @RequestParam(name = "titre") String titre) {
+            Gestion_emprunt_res ger = new Gestion_emprunt_res();
+            ger.emprunter(nom, titre);
+            return "redirect:/emprunts-reservations";
+        }
+
+        // Rendre un exemplaire
+        @PostMapping("/emprunts/rendre")
+        public String rendreExemplaire(@RequestParam(name = "nom") String nom, @RequestParam(name = "idExemplaire") int idExemplaire) {
+            Gestion_emprunt_res ger = new Gestion_emprunt_res();
+            ger.rendre(nom, idExemplaire);
+            return "redirect:/emprunts-reservations";
         }
 }

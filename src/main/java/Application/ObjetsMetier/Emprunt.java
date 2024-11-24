@@ -15,6 +15,12 @@ public class Emprunt {
         this.usager = usager;
         this.exemplaire = exemplaire;
     }
+    public Emprunt(Date dateEmprunt, Usager usager, Exemplaire exemplaire, StatutEmprunt statutEmprunt) {
+        this.dateEmprunt = dateEmprunt;
+        this.usager = usager;
+        this.exemplaire = exemplaire;
+        this.statutEmprunt = statutEmprunt;
+    }
 
     // Getters et Setters
     public Date getDateEmprunt() {

@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <title>Gestion des Oeuvres</title>
 </head>
-<body>
+<body style="justify-items: center;align-content: center;">
 <h1>Liste des oeuvres</h1>
+<a href='/'>Retour</a><br/><br/>
 
-<!-- Tableau des oeuvres -->
 <table border="1">
     <thead>
     <tr>
@@ -20,7 +20,6 @@
     </tr>
     </thead>
     <tbody>
-    <!-- Utilisation de Thymeleaf pour boucler sur la liste des oeuvres -->
     <tr th:each="oeuvre : ${oeuvres}">
         <td th:text="${oeuvre.titre}"></td>
         <td th:text="${oeuvre.datePublication}"></td>

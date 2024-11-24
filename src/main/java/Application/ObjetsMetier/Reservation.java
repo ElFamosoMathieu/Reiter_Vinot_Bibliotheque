@@ -16,6 +16,13 @@ public class Reservation {
         this.usager = usager;
     }
 
+    public Reservation(Date dateReservation, Oeuvre oeuvre, Usager usager, StatutReservation statutReservation) {
+        this.dateReservation = dateReservation;
+        this.oeuvre = oeuvre;
+        this.usager = usager;
+        this.statutReservation = statutReservation;
+    }
+
     // Getters et Setters
     public Date getDateReservation() {
         return dateReservation;
@@ -31,6 +38,12 @@ public class Reservation {
 
     public void setStatutReservation(StatutReservation statutReservation) {
         this.statutReservation = statutReservation;
+    }
+    public Oeuvre getOeuvre() {
+        return oeuvre;
+    }
+    public Usager getUsager() {
+        return usager;
     }
 
     // Méthodes spécifiques
