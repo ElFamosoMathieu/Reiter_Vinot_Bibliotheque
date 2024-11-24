@@ -57,18 +57,23 @@ public class Gestion_emprunt_res {
     public boolean verifierEmpruntVide(String nom){
         OutilsBaseSQL outilsBaseSQL = OutilsBaseSQL.getInstance();
 
-        String query = "SELECT * from Emprunt where nom = '" + nom + "' and statutemprunt = '" + StatutEmprunt.EN_COURS + "';";
+        String query = "SELECT count(*) as res from Emprunt where nom = '" + nom + "' and statutemprunt = '" + StatutEmprunt.EN_COURS + "';";
         String erreur = "Une erreur s'est produite lors de la verification des emprunts !";
         ResultSet res = outilsBaseSQL.rechercheSQL(query, erreur);
 
+        boolean retour = true;
+
         try {
             while (res.next()) {
-                return false;
+                int val = res.getInt("res");
+                if (val > 0){
+                    retour = false;
+                }
             }
         } catch (Exception e){
             System.out.println(e);
         }
-        return true;
+        return retour;
     }
 
     public synchronized void emprunter(String nom, String titre){
@@ -140,7 +145,6 @@ public class Gestion_emprunt_res {
 
     public void supprimerOeuvre(String titre) {
         OutilsBaseSQL outilsBaseSQL = OutilsBaseSQL.getInstance();
-
         String query = "DELETE FROM Reservation \n" +
                 " WHERE titre = '" + titre + "'";
         String erreur = "Une erreur s'est produite lors de la suppression des réservations !";
@@ -167,6 +171,17 @@ public class Gestion_emprunt_res {
 
     public void supprimerUsager(String nom){
         OutilsBaseSQL outilsBaseSQL = OutilsBaseSQL.getInstance();
+        /*
+        String query = "UPDATE Exemplaire\n" +
+                "SET etat = 'DISPONIBLE'\n" +
+                "WHERE idExemplaire IN (\n" +
+                "    SELECT Emprunt.idExemplaire\n" +
+                "    FROM Emprunt\n" +
+                "    WHERE Emprunt.nom = '" + nom + "'\n" +
+                ")";
+        String erreur = "Une erreur s'est produite lors de l'update des etats !";
+        int res = outilsBaseSQL.majSQL(query, erreur);
+         */
         String query = "DELETE FROM Emprunt \n" +
                 " WHERE nom = '" + nom + "'";
         String erreur = "Une erreur s'est produite lors de la suppression des emprunts !";
