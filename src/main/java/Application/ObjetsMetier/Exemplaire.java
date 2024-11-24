@@ -3,6 +3,7 @@ package Application.ObjetsMetier;
 import Application.Utilitaire.Etat;
 import Application.Utilitaire.OutilsBaseSQL;
 
+import javax.crypto.spec.OAEPParameterSpec;
 import java.sql.ResultSet;
 
 public class Exemplaire {
@@ -69,6 +70,27 @@ public class Exemplaire {
         try {
             while (res.next()) {
                 exemplaire = new Exemplaire(res.getInt("idExemplaire"), Etat.valueOf(res.getString("etat")), oeuvre);
+            }
+        } catch (Exception e){
+            System.out.println(e);
+        }
+
+        return exemplaire;
+    }
+
+    public static Exemplaire e_identifier(int id) {
+        Exemplaire exemplaire = null;
+        OutilsBaseSQL outilsBaseSQL = OutilsBaseSQL.getInstance();
+
+        String query = "SELECT * from Exemplaire inner join Oeuvre on Exemplaire.titre = Oeuvre.titre " +
+                "where Exemplaire.idExemplaire = '" + id + "'";
+        String erreur = "Une erreur s'est produite lors de l'identification de l'exemplaire !";
+        ResultSet res = outilsBaseSQL.rechercheSQL(query, erreur);
+        System.out.println(query);
+        try {
+            while (res.next()) {
+                Oeuvre oeuvreAAAAAAA = new Oeuvre(res.getString("titre"), res.getDate("datepublication"));
+                exemplaire = new Exemplaire(res.getInt("idExemplaire"), Etat.valueOf(res.getString("etat")), oeuvreAAAAAAA);
             }
         } catch (Exception e){
             System.out.println(e);
