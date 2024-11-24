@@ -52,6 +52,8 @@ public class Exemplaire {
                 "where Emprunt.statutemprunt != 'EN_COURS' \n" +
                 "AND Exemplaire.etat = 'DISPONIBLE' \n" +
                 "AND titre = '" + oeuvre.getTitre() + "' \n" +
+                "AND ((SELECT COUNT(*) FROM Exemplaire WHERE Exemplaire.titre = '" + oeuvre.getTitre() + "' AND Exemplaire.etat = 'DISPONIBLE') > " +
+                "(SELECT COUNT(*) FROM Reservation WHERE Reservation.titre = '" + oeuvre.getTitre() + "')) \n " +
                 "GROUP BY Exemplaire.idExemplaire \n" +
                 "Limit 1";
         String erreur = "Une erreur s'est produite lors de l'identification de l'exemplaire !";

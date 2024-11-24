@@ -2,11 +2,13 @@ package Controleur;
 
 import ObjetsMetier.Exemplaire;
 import ObjetsMetier.Oeuvre;
+import ObjetsMetier.Reservation;
 import ObjetsMetier.Usager;
 import Utilitaire.OutilsBaseSQL;
 import Utilitaire.StatutEmprunt;
 import Utilitaire.StatutReservation;
 
+import java.sql.ResultSet;
 import java.time.LocalDate;
 
 public class Gestion_emprunt_res {
@@ -35,6 +37,19 @@ public class Gestion_emprunt_res {
     }
 
     public boolean verifierReservation(Usager usager,  Oeuvre oeuvre){
+        OutilsBaseSQL outilsBaseSQL = OutilsBaseSQL.getInstance();
+
+        String query = "SELECT * from Reservation where nom = '" + usager.getNom() + "' and titre = " + oeuvre.getTitre() + "' and statutreservation = '" + StatutReservation.RESERVEE + "'";
+        String erreur = "Une erreur s'est produite lors de la verification de la reservation !";
+        ResultSet res = outilsBaseSQL.rechercheSQL(query, erreur);
+
+        try {
+            while (res.next()) {
+                return true;
+            }
+        } catch (Exception e){
+            System.out.println(e);
+        }
         return false;
     }
 
