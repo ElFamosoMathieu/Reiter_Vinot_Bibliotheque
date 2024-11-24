@@ -56,16 +56,29 @@ public class Gestion_oeuvre {
 
     public void supprimer(String titre) {
         OutilsBaseSQL outilsBaseSQL = OutilsBaseSQL.getInstance();
-        String erreur = "Une erreur s'est produite lors de la suppression !";
-        String query = "DELETE FROM Livre \n" +
-                " WHERE titre = '" + titre + "'";
-        outilsBaseSQL.majSQL(query, erreur);
-        query = "DELETE FROM Magazine \n" +
-                " WHERE titre = '" + titre + "'";
-        outilsBaseSQL.majSQL(query, erreur);
-        query = "DELETE FROM oeuvre \n" +
-                " WHERE titre = '" + titre + "'";
-        int res = outilsBaseSQL.majSQL(query, erreur);
+        Oeuvre oeuvre;
+
+        oeuvre = Oeuvre.e_identifier(titre);
+
+        if(oeuvre != null){
+            Gestion_emprunt_res gestion_emprunt_res = new Gestion_emprunt_res();
+            // Supprimer réservations
+
+            gestion_emprunt_res.supprimerOeuvre(titre);
+
+            // Retirer exemplaires
+
+            String erreur = "Une erreur s'est produite lors de la suppression !";
+            String query = "DELETE FROM Livre \n" +
+                    " WHERE titre = '" + titre + "'";
+            outilsBaseSQL.majSQL(query, erreur);
+            query = "DELETE FROM Magazine \n" +
+                    " WHERE titre = '" + titre + "'";
+            outilsBaseSQL.majSQL(query, erreur);
+            query = "DELETE FROM oeuvre \n" +
+                    " WHERE titre = '" + titre + "'";
+            int res = outilsBaseSQL.majSQL(query, erreur);
+        }
     }
 
     public List<Oeuvre> getAllOeuvres() {

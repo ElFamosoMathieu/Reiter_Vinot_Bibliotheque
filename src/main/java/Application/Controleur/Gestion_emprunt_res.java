@@ -1,14 +1,12 @@
 package Application.Controleur;
 
-import Application.ObjetsMetier.Exemplaire;
-import Application.ObjetsMetier.Oeuvre;
-import Application.ObjetsMetier.Reservation;
-import Application.ObjetsMetier.Usager;
+import Application.ObjetsMetier.*;
 import Application.Utilitaire.OutilsBaseSQL;
 import Application.Utilitaire.StatutReservation;
 import Application.Utilitaire.StatutEmprunt;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 public class Gestion_emprunt_res {
@@ -120,13 +118,34 @@ public class Gestion_emprunt_res {
         String query = "DELETE FROM Emprunt \n" +
                 " WHERE idExemplaire = '" + idExemplaire + "'";
         String erreur = "Une erreur s'est produite lors de la suppression des emprunts !";
+        int res = outilsBaseSQL.majSQL(query, erreur);
     }
 
     public void supprimerOeuvre(String titre) {
         OutilsBaseSQL outilsBaseSQL = OutilsBaseSQL.getInstance();
+
         String query = "DELETE FROM Reservation \n" +
                 " WHERE titre = '" + titre + "'";
         String erreur = "Une erreur s'est produite lors de la suppression des réservations !";
+        int res = outilsBaseSQL.majSQL(query, erreur);
+
+        query = "SELECT * FROM Exemplaire \n" +
+                " WHERE titre = '" + titre + "'";
+        erreur = "Une erreur s'est produite lors de la liste des exemplaires !";
+        ResultSet resultSet = outilsBaseSQL.rechercheSQL(query, erreur);
+        try {
+            while (resultSet.next()) {
+                this.supprimerExemplaire(resultSet.getInt("idExemplaire"));
+            }
+        } catch (Exception e){
+            System.out.println(e);
+        }
+
+        query = "DELETE FROM Exemplaire \n" +
+                " WHERE titre = '" + titre + "'";
+        erreur = "Une erreur s'est produite lors de la suppression des exemplaires !";
+        res = outilsBaseSQL.majSQL(query, erreur);
+
     }
 
     public void supprimerUsager(String nom){
