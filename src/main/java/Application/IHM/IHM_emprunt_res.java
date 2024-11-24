@@ -1,7 +1,7 @@
-package IHM;
+package Application.IHM;
 
-import Controleur.Gestion_emprunt_res;
-import Utilitaire.OutilsBaseSQL;
+import Application.Controleur.Gestion_emprunt_res;
+import Application.Utilitaire.OutilsBaseSQL;
 
 public class IHM_emprunt_res {
 

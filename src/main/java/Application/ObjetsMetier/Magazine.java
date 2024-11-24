@@ -1,4 +1,4 @@
-package ObjetsMetier;
+package Application.ObjetsMetier;
 
 import java.util.Date;
 

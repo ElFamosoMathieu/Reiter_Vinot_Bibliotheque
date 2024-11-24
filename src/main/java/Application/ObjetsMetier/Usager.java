@@ -1,6 +1,6 @@
-package ObjetsMetier;
+package Application.ObjetsMetier;
 
-import Utilitaire.OutilsBaseSQL;
+import Application.Utilitaire.OutilsBaseSQL;
 
 import java.sql.ResultSet;
 
@@ -51,7 +51,6 @@ public class Usager {
         } catch (Exception e){
             System.out.println(e);
         }
-
         return usager;
     }
 }

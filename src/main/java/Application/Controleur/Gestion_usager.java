@@ -1,9 +1,13 @@
-package Controleur;
+package Application.Controleur;
 
-import ObjetsMetier.Usager;
-import Utilitaire.OutilsBaseSQL;
+import Application.ObjetsMetier.Usager;
+import Application.Utilitaire.OutilsBaseSQL;
 
-import static ObjetsMetier.Usager.e_identifier;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+
+import static Application.ObjetsMetier.Usager.e_identifier;
 
 public class Gestion_usager {
 
@@ -41,6 +45,24 @@ public class Gestion_usager {
                 " WHERE nom = '" + nom + "'";
         String erreur = "Une erreur s'est produite lors de la suppression !";
         int res = outilsBaseSQL.majSQL(query, erreur);
+    }
+
+
+    public List<Usager> getAllUsagers() {
+        OutilsBaseSQL outilsBaseSQL = OutilsBaseSQL.getInstance();
+        String query = "SELECT * FROM Usager";
+        String erreur = "Une erreur s'est produite lors de la recherche de tout les usagers !";
+        ResultSet res = outilsBaseSQL.rechercheSQL(query,"");
+        List<Usager> usagers = new ArrayList<>();
+        try {
+            while (res.next()) {
+                Usager usager = new Usager(res.getString("nom"), res.getString("prenom"), res.getString("mail"));
+                usagers.add(usager);
+            }
+        } catch (Exception e){
+            System.out.println(e);
+        }
+        return usagers;
     }
 
 }

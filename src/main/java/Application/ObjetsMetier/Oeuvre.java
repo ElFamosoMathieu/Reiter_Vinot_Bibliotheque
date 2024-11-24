@@ -1,9 +1,9 @@
-package ObjetsMetier;
+package Application.ObjetsMetier;
 
 import java.sql.ResultSet;
 import java.util.Date;
-import Utilitaire.Etat;
-import Utilitaire.OutilsBaseSQL;
+import Application.Utilitaire.Etat;
+import Application.Utilitaire.OutilsBaseSQL;
 
 public class Oeuvre {
     private String titre;

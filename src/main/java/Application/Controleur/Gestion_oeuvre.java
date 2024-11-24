@@ -1,13 +1,22 @@
-package Controleur;
+package Application.Controleur;
 
-import ObjetsMetier.Oeuvre;
-import Utilitaire.OutilsBaseSQL;
+import Application.ObjetsMetier.Livre;
+import Application.ObjetsMetier.Magazine;
+import Application.ObjetsMetier.Oeuvre;
+import Application.ObjetsMetier.Usager;
+import Application.Utilitaire.OutilsBaseSQL;
 
+import java.sql.ResultSet;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
-import static ObjetsMetier.Livre.e_identifier;
+import static Application.ObjetsMetier.Oeuvre.e_identifier;
 
 public class Gestion_oeuvre {
+    public Gestion_oeuvre() {
+
+    }
     public void creationOeuvreLivre(String titre, LocalDate datePublication, String auteur) {
         OutilsBaseSQL outilsBaseSQL = OutilsBaseSQL.getInstance();
         Oeuvre livre = e_identifier(titre);
@@ -57,5 +66,42 @@ public class Gestion_oeuvre {
         query = "DELETE FROM oeuvre \n" +
                 " WHERE titre = '" + titre + "'";
         int res = outilsBaseSQL.majSQL(query, erreur);
+    }
+
+    public List<Oeuvre> getAllOeuvres() {
+        OutilsBaseSQL outilsBaseSQL = OutilsBaseSQL.getInstance();
+        String query = "SELECT * FROM Livre";
+        String erreur = "Une erreur s'est produite lors de la recherche de tout les Livre !";
+        ResultSet res = outilsBaseSQL.rechercheSQL(query,erreur);
+        List<Oeuvre> oeuvres = new ArrayList<>();
+        try {
+            while (res.next()) {
+                String query2 = "SELECT * FROM Oeuvre WHERE titre = '" + res.getString("titre") + "'";
+                String erreur2 = "Une erreur s'est produite lors de la recherche de l'oeuvre "+res.getString("titre")+" !";
+                ResultSet res2 = outilsBaseSQL.rechercheSQL(query2,erreur2);
+                res2.next();
+                Livre livre = new Livre(res.getString("titre"), res.getString("auteur"), res2.getDate("datepublication"));
+                oeuvres.add(livre);
+            }
+        } catch (Exception e){
+            System.out.println(e);
+        }
+
+        query = "SELECT * FROM Magazine";
+        erreur = "Une erreur s'est produite lors de la recherche de tout les Livre !";
+        res = outilsBaseSQL.rechercheSQL(query,erreur);
+        try {
+            while (res.next()) {
+                String query2 = "SELECT * FROM Oeuvre WHERE titre = '" + res.getString("titre") + "'";
+                String erreur2 = "Une erreur s'est produite lors de la recherche de l'Oeuvre "+res.getString("titre")+" !";
+                ResultSet res2 = outilsBaseSQL.rechercheSQL(query2,erreur2);
+                res2.next();
+                Magazine magazine = new Magazine(res.getString(2), res.getInt(3),res.getString(4), res2.getDate("datepublication"));
+                oeuvres.add(magazine);
+            }
+        } catch (Exception e){
+            System.out.println(e);
+        }
+        return oeuvres;
     }
 }

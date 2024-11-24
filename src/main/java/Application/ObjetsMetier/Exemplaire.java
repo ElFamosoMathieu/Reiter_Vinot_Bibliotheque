@@ -1,7 +1,7 @@
-package ObjetsMetier;
+package Application.ObjetsMetier;
 
-import Utilitaire.Etat;
-import Utilitaire.OutilsBaseSQL;
+import Application.Utilitaire.Etat;
+import Application.Utilitaire.OutilsBaseSQL;
 
 import java.sql.ResultSet;
 

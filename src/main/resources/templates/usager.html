@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestion des Usagers</title>
+</head>
+<body>
+<h1>Liste des Usagers</h1>
+
+<!-- Formulaire pour ajouter un usager -->
+<h2>Ajouter un Usager</h2>
+<form method="post" action="/usager/ajouter">
+    <label for="nom">Nom :</label>
+    <input type="text" id="nom" name="nom" required><br>
+    <label for="prenom">Prénom :</label>
+    <input type="text" id="prenom" name="prenom" required><br>
+    <label for="mail">Email :</label>
+    <input type="email" id="mail" name="mail" required><br>
+    <button type="submit">Ajouter</button>
+</form>
+
+<!-- Affichage de la liste des usagers -->
+<h2>Liste des Usagers</h2>
+<table border="1">
+    <thead>
+    <tr>
+        <th>Nom</th>
+        <th>Prénom</th>
+        <th>Email</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="usager : ${usagers}">
+        <td th:text="${usager.nom}"></td>
+        <td th:text="${usager.prenom}"></td>
+        <td th:text="${usager.mail}"></td>
+        <td>
+            <!-- Formulaire pour modifier un usager -->
+            <form method="post" action="/usager/modifier">
+                <input type="hidden" name="nom" th:value="${usager.nom}">
+                <input type="text" name="prenom" th:value="${usager.prenom}">
+                <input type="email" name="mail" th:value="${usager.mail}">
+                <button type="submit">Modifier</button>
+            </form>
+
+            <!-- Formulaire pour supprimer un usager -->
+            <form method="post" action="/usager/supprimer">
+                <input type="hidden" name="nom" th:value="${usager.nom}">
+                <button type="submit">Supprimer</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

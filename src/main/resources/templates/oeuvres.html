@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestion des Oeuvres</title>
+</head>
+<body>
+<h1>Liste des oeuvres</h1>
+
+<!-- Tableau des oeuvres -->
+<table border="1">
+    <thead>
+    <tr>
+        <th>Titre</th>
+        <th>Date de Publication</th>
+        <th>Type</th>
+        <th>auteur / numéro</th>
+        <th> / édition</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Utilisation de Thymeleaf pour boucler sur la liste des oeuvres -->
+    <tr th:each="oeuvre : ${oeuvres}">
+        <td th:text="${oeuvre.titre}"></td>
+        <td th:text="${oeuvre.datePublication}"></td>
+        <td>
+            <span th:if="${oeuvre instanceof T(Application.ObjetsMetier.Livre)}">Livre</span>
+            <span th:if="${oeuvre instanceof T(Application.ObjetsMetier.Magazine)}">Magazine</span>
+        </td>
+        <td>
+            <span th:if="${oeuvre instanceof T(Application.ObjetsMetier.Livre)}" th:text="${oeuvre.auteur}"></span>
+            <span th:if="${oeuvre instanceof T(Application.ObjetsMetier.Magazine)}" th:text="${oeuvre.numero}"></span>
+        </td>
+        <td>
+            <span th:if="${oeuvre instanceof T(Application.ObjetsMetier.Livre)}"></span>
+            <span th:if="${oeuvre instanceof T(Application.ObjetsMetier.Magazine)}" th:text="${oeuvre.edition}"></span>
+        </td>
+        <td>
+            <form action="#" method="post" th:action="@{/oeuvres/supprimer}">
+                <input type="hidden" th:value="${oeuvre.titre}" name="titre"/>
+                <button type="submit">Supprimer</button>
+            </form>
+        </td>
+    </tr>
+    </tr>
+    </tbody>
+</table>
+
+<h3>Ajouter un Livre</h3>
+<form action="#" method="post" th:action="@{/oeuvres/Livre/ajouter}">
+    <input type="text" name="titre" placeholder="Titre" required/>
+    <input type="date" name="datePublication" required/>
+    <input type="text" name="auteur" placeholder="Auteur" required/>
+    <button type="submit">Ajouter</button>
+</form>
+
+<h3>Ajouter un Magazine</h3>
+<form action="#" method="post" th:action="@{/oeuvres/Magazine/ajouter}">
+    <input type="text" name="titre" placeholder="Titre" required/>
+    <input type="date" name="datePublication" required/>
+    <input type="text" name="édition" placeholder="édition" required/>
+    <input type="entier" name="numéro" placeholder="numéro" required/>
+    <button type="submit">Ajouter</button>
+</form>
+
+</body>
+</html>

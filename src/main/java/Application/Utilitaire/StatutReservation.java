@@ -1,4 +1,4 @@
-package Utilitaire;
+package Application.Utilitaire;
 
 public enum StatutReservation {
     NON_RESERVEE,

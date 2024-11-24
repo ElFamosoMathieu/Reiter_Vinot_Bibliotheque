@@ -1,4 +1,4 @@
-package Utilitaire;
+package Application.Utilitaire;
 
 import java.sql.*;
 
@@ -121,7 +121,7 @@ public class OutilsBaseSQL {
      * @param erreur, String  : le message d'erreur à envoyer en cas de problème
      * @return
      */
-    public static int  majSQL(String requete, String erreur){
+    public static int majSQL(String requete, String erreur){
 
         int res = -1;
         try (PreparedStatement pstmt = conn.prepareStatement(requete, Statement.RETURN_GENERATED_KEYS)) {

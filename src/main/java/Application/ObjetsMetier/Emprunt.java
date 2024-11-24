@@ -1,7 +1,7 @@
-package ObjetsMetier;
+package Application.ObjetsMetier;
 
 import java.util.Date;
-import Utilitaire.StatutEmprunt;
+import Application.Utilitaire.StatutEmprunt;
 
 public class Emprunt {
     private Date dateEmprunt;

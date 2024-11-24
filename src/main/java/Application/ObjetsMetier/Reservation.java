@@ -1,7 +1,7 @@
-package ObjetsMetier;
+package Application.ObjetsMetier;
 
 import java.util.Date;
-import Utilitaire.StatutReservation;
+import Application.Utilitaire.StatutReservation;
 
 public class Reservation {
     private Date dateReservation;
