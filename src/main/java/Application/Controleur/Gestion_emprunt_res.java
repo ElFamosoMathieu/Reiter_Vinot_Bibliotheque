@@ -100,8 +100,8 @@ public class Gestion_emprunt_res {
                     String erreur = "Une erreur s'est produite lors de l'emprunt !";
                     int res = outilsBaseSQL.majSQL(query, erreur);
                     System.out.println(query);
+                    // exemplaire indisponible
                     Gestion_exemplaire gestion_exemplaire = new Gestion_exemplaire();
-                    // penser à mettre indisponible
                     gestion_exemplaire.maj(exemplaire.getId(), Etat.INDISPONIBLE);
                 }
                 System.out.println("emprunter 8");
@@ -125,6 +125,9 @@ public class Gestion_emprunt_res {
                 " WHERE idExemplaire = '" + id + "' AND nom = '" + nom + "' AND statutemprunt = '" + StatutEmprunt.EN_COURS + "'";
         String erreur = "Une erreur s'est produite lors du rendu !";
         int res = outilsBaseSQL.majSQL(query, erreur);
+        // Exemplaire disponible de nouveau
+        Gestion_exemplaire gestion_exemplaire = new Gestion_exemplaire();
+        gestion_exemplaire.maj(id, Etat.DISPONIBLE);
     }
 
     public void supprimerExemplaire(int idExemplaire) {
