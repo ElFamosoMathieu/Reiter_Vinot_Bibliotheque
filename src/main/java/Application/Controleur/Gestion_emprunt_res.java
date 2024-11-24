@@ -53,6 +53,23 @@ public class Gestion_emprunt_res {
         return false;
     }
 
+    public boolean verifierEmpruntVide(String nom){
+        OutilsBaseSQL outilsBaseSQL = OutilsBaseSQL.getInstance();
+
+        String query = "SELECT * from Emprunt where nom = '" + nom + "' and statutemprunt = '" + StatutEmprunt.EN_COURS + "';";
+        String erreur = "Une erreur s'est produite lors de la verification des emprunts !";
+        ResultSet res = outilsBaseSQL.rechercheSQL(query, erreur);
+
+        try {
+            while (res.next()) {
+                return false;
+            }
+        } catch (Exception e){
+            System.out.println(e);
+        }
+        return true;
+    }
+
     public synchronized void emprunter(String nom, String titre){
         OutilsBaseSQL outilsBaseSQL = OutilsBaseSQL.getInstance();
 

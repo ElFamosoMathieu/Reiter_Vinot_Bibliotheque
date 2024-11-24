@@ -31,20 +31,28 @@ public class Gestion_usager {
     }
 
     public void supprimer(String nom){
-        OutilsBaseSQL outilsBaseSQL = OutilsBaseSQL.getInstance();
-        String query = "DELETE FROM Usager \n" +
-                " WHERE nom = '" + nom + "'";
-        String erreur = "Une erreur s'est produite lors de la suppression !";
-        int res = outilsBaseSQL.majSQL(query, erreur);
+        Gestion_emprunt_res gestion_emprunt_res =new Gestion_emprunt_res();
+        gestion_emprunt_res.supprimerUsager(nom);
+        if (gestion_emprunt_res.verifierEmpruntVide(nom)){
+            OutilsBaseSQL outilsBaseSQL = OutilsBaseSQL.getInstance();
+            String query = "DELETE FROM Usager \n" +
+                    " WHERE nom = '" + nom + "'";
+            String erreur = "Une erreur s'est produite lors de la suppression !";
+            int res = outilsBaseSQL.majSQL(query, erreur);
+        }
     }
 
     public void maj(String nom, String prenom, String mail){
-        OutilsBaseSQL outilsBaseSQL = OutilsBaseSQL.getInstance();
-        String query = "UPDATE Usager \n" +
-                " SET prenom = '" + prenom + "', mail = '" + mail + "' \n" +
-                " WHERE nom = '" + nom + "'";
-        String erreur = "Une erreur s'est produite lors de la suppression !";
-        int res = outilsBaseSQL.majSQL(query, erreur);
+        Usager usager;
+        usager = Usager.e_identifier(nom);
+        if (usager != null){
+            OutilsBaseSQL outilsBaseSQL = OutilsBaseSQL.getInstance();
+            String query = "UPDATE Usager \n" +
+                    " SET prenom = '" + prenom + "', mail = '" + mail + "' \n" +
+                    " WHERE nom = '" + nom + "'";
+            String erreur = "Une erreur s'est produite lors de la mise à jour !";
+            int res = outilsBaseSQL.majSQL(query, erreur);
+        }
     }
 
 
