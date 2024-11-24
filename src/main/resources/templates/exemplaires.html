@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des Exemplaires</title>
+</head>
+<body>
+<h1>Liste des Exemplaires</h1>
+
+<form action="/exemplaires/ajouter" method="post">
+    <label for="titre">Choisir une œuvre :</label>
+    <select name="titre" id="titre">
+        <option th:each="oeuvre : ${oeuvres}"
+                th:value="${oeuvre.titre}"
+                th:text="${oeuvre.titre}">
+        </option>
+    </select>
+    <button type="submit">Ajouter Exemplaire</button>
+</form>
+
+<h2>Liste des Exemplaires</h2>
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Titre</th>
+        <th>État</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="exemplaire : ${exemplaires}">
+        <td th:text="${exemplaire.id}"></td>
+        <td th:text="${exemplaire.oeuvre.titre}"></td>
+        <td th:text="${exemplaire.etat}"></td>
+        <td>
+            <form action="/exemplaires/update" method="post" style="display:inline;">
+                <input type="hidden" name="id" th:value="${exemplaire.id}">
+                <select name="etat">
+                    <option value="DISPONIBLE">Disponible</option>
+                    <option value="INDISPONIBLE">Indisponible</option>
+                </select>
+                <button type="submit">Mettre à jour</button>
+            </form>
+            <form action="/exemplaires/supprimer" method="post">
+                <input type="hidden" name="id" th:value="${exemplaire.id}">
+                <button type="submit">supprimer</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

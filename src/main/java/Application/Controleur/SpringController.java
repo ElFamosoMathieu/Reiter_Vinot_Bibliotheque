@@ -1,11 +1,10 @@
 package Application.Controleur;
 
+import Application.ObjetsMetier.Exemplaire;
+import Application.Utilitaire.Etat;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 
 import Application.IHM.IHM_usager;
@@ -79,5 +78,39 @@ public class SpringController {
             Gestion_oeuvre go = new Gestion_oeuvre();
             go.supprimer(titre);
             return "redirect:/oeuvres";
+        }
+
+
+    @RequestMapping("/exemplaires")
+        @GetMapping("/")
+        public String afficherExemplaires(Model model) {
+            Gestion_exemplaire ge = new Gestion_exemplaire();
+            Gestion_oeuvre go = new Gestion_oeuvre();
+            List<Oeuvre> oeuvres = go.getAllOeuvres();
+            List<Exemplaire> exemplaires = ge.getAllExemplaires();
+            model.addAttribute("exemplaires", exemplaires);
+            model.addAttribute("oeuvres", oeuvres);
+            return "exemplaires";
+        }
+
+        @PostMapping("/exemplaires/ajouter")
+        public String ajouterExemplaire(@RequestParam(name = "titre") String titre) {
+            Gestion_exemplaire ge = new Gestion_exemplaire();
+            ge.ajouter(titre);
+            return "redirect:/exemplaires";
+        }
+
+        @PostMapping("/exemplaires/supprimer")
+        public String supprimerExemplaire(@RequestParam(name = "id") int id) {
+            Gestion_exemplaire ge = new Gestion_exemplaire();
+            ge.supprimer(id);
+            return "redirect:/exemplaires";
+        }
+
+        @PostMapping("/exemplaires/update")
+        public String majExemplaire(@RequestParam(name = "id") int id, @RequestParam(name = "etat") String etat) {
+            Gestion_exemplaire ge = new Gestion_exemplaire();
+            ge.maj(id, Etat.valueOf(etat));
+            return "redirect:/exemplaires";
         }
 }
