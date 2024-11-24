@@ -27,7 +27,7 @@ CREATE TABLE Livre
 CREATE TABLE Magazine
 (
     idMagazine SERIAL PRIMARY KEY,
-    titre VARCHAR(50) NOT NULL,
+    titre VARCHAR(50) NOT NULL UNIQUE,
     numéro INT NOT NULL,
     édition VARCHAR(50) NOT NULL,
     FOREIGN KEY (titre) REFERENCES Oeuvre (titre),

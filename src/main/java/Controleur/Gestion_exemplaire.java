@@ -7,7 +7,7 @@ public class Gestion_exemplaire {
 
     public Gestion_exemplaire(){}
 
-    public static void ajouter(String oeuvre) {
+    public void ajouter(String oeuvre) {
         OutilsBaseSQL outilsBaseSQL = OutilsBaseSQL.getInstance();
 
         String query = "INSERT INTO Exemplaire (titre, etat)\n" +
@@ -16,7 +16,7 @@ public class Gestion_exemplaire {
         int res = outilsBaseSQL.majSQL(query, erreur);
     }
 
-    public static void supprimer(int id){
+    public void supprimer(int id){
         OutilsBaseSQL outilsBaseSQL = OutilsBaseSQL.getInstance();
         String query = "DELETE FROM Exemplaire \n" +
                 " WHERE idExemplaire  = '" + id + "'";
@@ -24,7 +24,7 @@ public class Gestion_exemplaire {
         int res = outilsBaseSQL.majSQL(query, erreur);
     }
 
-    public static void maj(int id, Etat etat){
+    public void maj(int id, Etat etat){
         OutilsBaseSQL outilsBaseSQL = OutilsBaseSQL.getInstance();
         String query = "UPDATE Exemplaire \n" +
                 " SET etat = '" + etat + "' \n" +

@@ -1,6 +1,8 @@
 package Controleur;
 
-import Utilitaire.Etat;
+import ObjetsMetier.Exemplaire;
+import ObjetsMetier.Oeuvre;
+import ObjetsMetier.Usager;
 import Utilitaire.OutilsBaseSQL;
 import Utilitaire.StatutEmprunt;
 import Utilitaire.StatutReservation;
@@ -20,13 +22,19 @@ public class Gestion_emprunt_res {
         // Convertir en format 'YYYY-MM-DD'
         String dateJourFormat = dateJour.toString();
 
-        String query = "INSERT INTO Reservation (titre, nom, dateReservation, statutReservation)\n" +
-                " VALUES ('"+ titre +"', '" + nom + "', '"+ dateJourFormat +"', '"+ StatutReservation.RESERVEE +"')";
-        String erreur = "Une erreur s'est produite lors de la réservation !";
-        int res = outilsBaseSQL.majSQL(query, erreur);
+        Usager usager = Usager.e_identifier(nom);
+        if (usager != null){
+            Oeuvre oeuvre = Oeuvre.e_identifier(titre);
+            if (oeuvre != null){
+                String query = "INSERT INTO Reservation (titre, nom, dateReservation, statutReservation)\n" +
+                        " VALUES ('"+ titre +"', '" + nom + "', '"+ dateJourFormat +"', '"+ StatutReservation.RESERVEE +"')";
+                String erreur = "Une erreur s'est produite lors de la réservation !";
+                int res = outilsBaseSQL.majSQL(query, erreur);
+            }
+        }
     }
 
-    public static void emprunter(String nom, int id){
+    public static void emprunter(String nom, String titre){
         OutilsBaseSQL outilsBaseSQL = OutilsBaseSQL.getInstance();
 
         // Obtenir la date actuelle
@@ -35,10 +43,19 @@ public class Gestion_emprunt_res {
         // Convertir en format 'YYYY-MM-DD'
         String dateJourFormat = dateJour.toString();
 
-        String query = "INSERT INTO Emprunt (idExemplaire, nom, dateEmprunt, statutEmprunt)\n" +
-                " VALUES ('"+ id +"', '" + nom + "', '"+ dateJourFormat +"', '"+ StatutEmprunt.EN_COURS +"')";
-        String erreur = "Une erreur s'est produite lors de l'emprunt !";
-        int res = outilsBaseSQL.majSQL(query, erreur);
+        Usager usager = Usager.e_identifier(nom);
+        if (usager != null){
+            Oeuvre oeuvre = Oeuvre.e_identifier(titre);
+            if (oeuvre != null){
+                Exemplaire exemplaire = Exemplaire.e_identifier(oeuvre);
+                if(exemplaire != null){
+                    String query = "INSERT INTO Emprunt (idExemplaire, nom, dateEmprunt, statutEmprunt)\n" +
+                            " VALUES ('"+ exemplaire.getId() +"', '" + nom + "', '"+ dateJourFormat +"', '"+ StatutEmprunt.EN_COURS +"')";
+                    String erreur = "Une erreur s'est produite lors de l'emprunt !";
+                    int res = outilsBaseSQL.majSQL(query, erreur);
+                }
+            }
+        }
     }
 
     public static void annuler(String nom, String titre){

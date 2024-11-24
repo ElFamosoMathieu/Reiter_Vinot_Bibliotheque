@@ -15,8 +15,8 @@ public class IHM_emprunt_res {
         this.gestion_emprunt_res.reserver(nom, titre);
     }
 
-    public void emprunter(String nom, int id){
-        this.gestion_emprunt_res.emprunter(nom, id);
+    public void emprunter(String nom, String titre){
+        this.gestion_emprunt_res.emprunter(nom, titre);
     }
 
     public void annuler(String nom, String titre){
