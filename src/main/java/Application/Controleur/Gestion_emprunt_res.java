@@ -100,6 +100,9 @@ public class Gestion_emprunt_res {
                     String erreur = "Une erreur s'est produite lors de l'emprunt !";
                     int res = outilsBaseSQL.majSQL(query, erreur);
                     System.out.println(query);
+                    Gestion_exemplaire gestion_exemplaire = new Gestion_exemplaire();
+                    // penser à mettre indisponible
+                    gestion_exemplaire.maj(exemplaire.getId(), Etat.INDISPONIBLE);
                 }
                 System.out.println("emprunter 8");
             }
